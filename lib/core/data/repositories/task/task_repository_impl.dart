@@ -22,7 +22,7 @@ class TaskRepositoryImpl implements TaskRepository {
               isDone: params.isDone,
             ),
           );
-          if (await _localStorage.save(LocalStorageKeyEnum.tasks.key, jsonEncode(tasksList))) {
+          if (await _localStorage.saveData(LocalStorageKeyEnum.tasks.key, jsonEncode(tasksList))) {
             return tasksList;
           } else {
             throw Exception('Erro ao salvar tarefa');
@@ -34,16 +34,16 @@ class TaskRepositoryImpl implements TaskRepository {
   Future<List<TaskEntity>> deleteTask(int idTask) async {
     final tasksList = await getTasks();
     tasksList.removeWhere((task) => task.id == idTask);
-    if (await _localStorage.save(LocalStorageKeyEnum.tasks.key, jsonEncode(tasksList))) {
+    if (await _localStorage.saveData(LocalStorageKeyEnum.tasks.key, jsonEncode(tasksList))) {
       return tasksList;
-    } else {
-      throw Exception('Erro ao deletar tarefa');
     }
+
+    throw Exception('Erro ao deletar tarefa');
   }
 
   @override
   Future<List<TaskEntity>> getTasks() async {
-    final tasksJson = await _localStorage.get(LocalStorageKeyEnum.tasks.key);
+    final tasksJson = await _localStorage.getData(LocalStorageKeyEnum.tasks.key);
 
     final tasksList = jsonDecode(tasksJson) as List<TaskEntity>;
     return tasksList
@@ -69,7 +69,7 @@ class TaskRepositoryImpl implements TaskRepository {
         description: params.description,
         isDone: params.isDone,
       );
-      if (await _localStorage.save(LocalStorageKeyEnum.tasks.key, jsonEncode(tasksList))) {
+      if (await _localStorage.saveData(LocalStorageKeyEnum.tasks.key, jsonEncode(tasksList))) {
         return tasksList;
       } else {
         throw Exception('Erro ao atualizar tarefa');

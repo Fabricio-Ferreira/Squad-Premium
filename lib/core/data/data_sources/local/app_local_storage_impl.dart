@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,10 +23,10 @@ class AppLocalStorageImpl implements AppLocalStorage {
   }
 
   @override
-  Future<String> get(String key) async {
+  Future<String> getData(String key) async {
     try {
       final prefs = await _instance.future;
-      return json.decode(prefs.getString(key) ?? '');
+      return prefs.getString(key) ?? '';
     } on Exception catch (e) {
       debugPrint('LocalStorage error => getString: $e');
       return 'Chave não encontrada';
@@ -35,7 +34,7 @@ class AppLocalStorageImpl implements AppLocalStorage {
   }
 
   @override
-  Future<bool> save(String key, String value) async {
+  Future<bool> saveData(String key, String value) async {
     try {
       final prefs = await _instance.future;
       return prefs.setString(key, value);

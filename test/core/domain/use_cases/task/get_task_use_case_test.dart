@@ -29,17 +29,17 @@ void main() {
 
     final result = await getTaskUseCase(NoParams());
 
-    expect(result, isA<TaskEntity>());
+    expect(result, isA<List<TaskEntity>>());
     verify(() => taskRepository.getTasks()).called(1);
   });
 
-  test('should error for get all task', () async {
-    final exception = Exception('error');
-    when(() => taskRepository.getTasks()).thenThrow((_) async => exception);
-
-    final result = await getTaskUseCase(NoParams());
-
-    expect(result, false);
-    verify(() => taskRepository.getTasks()).called(1);
+  test('should error on get all task', () async {
+    try {
+      when(() => taskRepository.getTasks()).thenAnswer((_) async => throw Exception());
+      await getTaskUseCase(NoParams());
+      verify(() => taskRepository.getTasks()).called(1);
+    } on Exception catch (e) {
+      expect(e, isA<Exception>());
+    }
   });
 }

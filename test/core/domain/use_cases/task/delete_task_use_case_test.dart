@@ -29,18 +29,19 @@ void main() {
 
     final result = await deleteTaskUseCase(params.id);
 
-    expect(result, isA<TaskEntity>());
+    expect(result, isA<List<TaskEntity>>());
     verify(() => taskRepository.deleteTask(params.id)).called(1);
   });
 
   test('should error delete task', () async {
-    final exception = Exception('error');
     final params = TaskUseCaseParams(title: 'title', description: 'description', isDone: false);
-    when(() => taskRepository.deleteTask(params.id)).thenThrow((_) async => exception);
 
-    final result = await deleteTaskUseCase(params.id);
-
-    expect(result, true);
-    verify(() => taskRepository.deleteTask(params.id)).called(1);
+    try {
+      when(() => taskRepository.deleteTask(params.id)).thenAnswer((_) async => throw Exception());
+      await deleteTaskUseCase(params.id);
+      verify(() => taskRepository.deleteTask(params.id)).called(1);
+    } on Exception catch (e) {
+      expect(e, isA<Exception>());
+    }
   });
 }

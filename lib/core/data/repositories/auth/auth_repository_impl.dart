@@ -13,7 +13,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<UserEntity> signIn(UserUseCaseParams params) async {
-    final user = await _localStorage.get(params.email);
+    final user = await _localStorage.getData(params.email);
     if (user.contains(AppError.keyNotFound)) {
       throw Exception('Usuário não cadastrado');
     } else {
@@ -28,7 +28,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<UserEntity> signUp(UserUseCaseParams params) async {
-    final user = await _localStorage.get(params.email);
+    final user = await _localStorage.getData(params.email);
     if (user.contains(AppError.keyNotFound)) {
       final newUser = UserEntity(
         email: params.email,
@@ -36,7 +36,7 @@ class AuthRepositoryImpl implements AuthRepository {
         name: params.name,
         id: params.id,
       );
-      if (await _localStorage.save(params.email, newUser.toJson())) {
+      if (await _localStorage.saveData(params.email, newUser.toJson())) {
         return newUser;
       } else {
         throw Exception('Erro ao salvar usuário');

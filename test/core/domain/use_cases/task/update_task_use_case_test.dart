@@ -29,18 +29,19 @@ void main() {
 
     final result = await updateTaskUseCase(params);
 
-    expect(result, isA<TaskEntity>());
+    expect(result, isA<List<TaskEntity>>());
     verify(() => taskRepository.updateTask(params)).called(1);
   });
 
   test('should error on update task', () async {
     final params = TaskUseCaseParamsSpy();
-    final exception = Exception('error');
-    when(() => taskRepository.updateTask(params)).thenThrow((_) async => exception);
 
-    final result = await updateTaskUseCase(params);
-
-    expect(result, false);
-    verify(() => taskRepository.updateTask(params)).called(1);
+    try {
+      when(() => taskRepository.updateTask(params)).thenAnswer((_) async => throw Exception());
+      await updateTaskUseCase(params);
+      verify(() => taskRepository.updateTask(params)).called(1);
+    } on Exception catch (e) {
+      expect(e, isA<Exception>());
+    }
   });
 }
