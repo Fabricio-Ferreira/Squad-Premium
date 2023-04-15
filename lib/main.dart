@@ -12,13 +12,6 @@ Future<void> main() async {
     () async {
       await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
         (_) async {
-          SystemChrome.setSystemUIOverlayStyle(
-            const SystemUiOverlayStyle(
-              statusBarColor: Colors.red, // Defina a cor desejada aqui
-              statusBarIconBrightness:
-                  Brightness.light, // Defina a cor dos ícones na barra de status
-            ),
-          );
           await initCoreModules();
           runApp(const SquadPremiumAppWidget());
         },

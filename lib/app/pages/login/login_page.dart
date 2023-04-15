@@ -3,10 +3,15 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:squad_premium_test/app/pages/login/login_controller.dart';
 import 'package:squad_premium_test/app/pages/sign_up/sign_up_page.dart';
+import 'package:squad_premium_test/app/routes/app_route_enum.dart';
 import 'package:squad_premium_test/app/widgets/input_text_field.dart';
 
 class LoginPage extends GetView<LoginController> {
   const LoginPage({Key? key}) : super(key: key);
+
+  static Future? get navigateTo => Get.toNamed(
+        AppRoutes.login.path,
+      );
 
   @override
   Widget build(BuildContext context) => Scaffold(

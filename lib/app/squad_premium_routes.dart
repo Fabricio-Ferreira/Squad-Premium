@@ -6,6 +6,7 @@ import 'package:squad_premium_test/app/pages/sign_up/sign_up_page.dart';
 import 'package:squad_premium_test/app/pages/splash/splash_page.dart';
 import 'package:squad_premium_test/app/routes/app_route_enum.dart';
 
+import 'pages/home/bindings/home_binding.dart';
 import 'pages/login/bindings/login_binding.dart';
 import 'pages/splash/bindings/splash_binding.dart';
 
@@ -14,6 +15,9 @@ mixin SquadPremiumRoutes {
         GetPage(
           name: AppRoutes.home.path,
           page: HomePage.new,
+          bindings: [
+            HomeBinding(),
+          ],
         ),
         GetPage(
           name: AppRoutes.login.path,

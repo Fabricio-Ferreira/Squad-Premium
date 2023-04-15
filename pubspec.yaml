@@ -19,6 +19,9 @@ dependencies:
   shared_preferences: ^2.1.0
   get: ^4.6.5
   dartz: ^0.10.1
+
+  focus_detector:
+
   
   #region Unit tests
   mocktail: ^0.3.0

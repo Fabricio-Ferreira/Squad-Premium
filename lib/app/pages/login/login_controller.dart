@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:squad_premium_test/app/helpers/validator_helper.dart';
-import 'package:squad_premium_test/app/routes/app_route_enum.dart';
+import 'package:squad_premium_test/app/pages/home/arguments/home_arguments.dart';
+import 'package:squad_premium_test/app/pages/home/home_page.dart';
 import 'package:squad_premium_test/core/domain/use_cases/auth/params/user_use_case_params.dart';
 import 'package:squad_premium_test/core/domain/use_cases/auth/sign_in/sign_in_use_case.dart';
 
@@ -60,7 +61,7 @@ class LoginController extends GetxController {
             style: const TextStyle(color: Colors.white, fontSize: 16),
           ),
         ),
-        (user) => Get.offAllNamed(AppRoutes.home.path),
+        (user) => HomePage.navigateWith(arguments: HomeArguments(nameUser: user.name)),
       );
     }
   }
