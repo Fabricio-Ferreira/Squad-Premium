@@ -1,0 +1,48 @@
+import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
+import 'package:squad_premium_test/app/squad_premium_routes.dart';
+import 'package:squad_premium_test/app/utils/widget_utils.dart';
+
+import 'routes/app_route_enum.dart';
+
+class SquadPremiumAppWidget extends StatefulWidget {
+  const SquadPremiumAppWidget({Key? key}) : super(key: key);
+
+  @override
+  State<SquadPremiumAppWidget> createState() => _SquadPremiumAppWidgetState();
+}
+
+class _SquadPremiumAppWidgetState extends State<SquadPremiumAppWidget> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => GetMaterialApp(
+        navigatorKey: Get.key,
+        title: 'Squad Premium',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        initialRoute: AppRoutes.initial.path,
+        getPages: SquadPremiumRoutes.routes,
+        builder: (context, child) => SafeArea(
+          child: Scaffold(
+            backgroundColor: Colors.blueGrey.shade50,
+            body: GestureDetector(
+              onTap: () => WidgetUtils.hideKeyboard(context),
+              child: child,
+            ),
+          ),
+        ),
+      );
+}

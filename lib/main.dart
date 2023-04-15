@@ -1,7 +1,23 @@
-import 'package:flutter/material.dart';
-import 'package:squad_premium_test/app/pages/home/home_page.dart';
+import 'dart:async';
 
-void main() {
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import 'app/squad_premium_app_widget.dart';
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const HomePage());
+  await runZonedGuarded(
+    () async {
+      await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
+        (_) {
+          runApp(const SquadPremiumAppWidget());
+        },
+      );
+    },
+    (error, stackTrace) {
+      debugPrint(error.toString());
+      debugPrint(stackTrace.toString());
+    },
+  );
 }

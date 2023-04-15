@@ -17,6 +17,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   equatable: ^2.0.5
   shared_preferences: ^2.1.0
+  get: ^4.6.5
   
   #region Unit tests
   mocktail: ^0.3.0
@@ -33,3 +34,7 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
+
+  assets:
+    - fonts/avenir_next/
+    - images/
