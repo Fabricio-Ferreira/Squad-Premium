@@ -1,3 +1,3 @@
 abstract class AppError {
-  static const String keyNotFound = 'UChave não encontrada';
+  static const String keyNotFound = 'Chave não encontrada';
 }

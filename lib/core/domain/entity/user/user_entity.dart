@@ -40,7 +40,7 @@ class UserEntity extends Equatable {
       };
 
   factory UserEntity.fromMap(Map<String, dynamic> map) => UserEntity(
-        id: int.parse(map['id'] as String),
+        id: map['id'] as int,
         name: map['name'] as String,
         email: map['email'] as String,
         password: map['password'] as String,

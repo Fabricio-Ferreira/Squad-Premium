@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:squad_premium_test/app/squad_premium_app_binding.dart';
 import 'package:squad_premium_test/app/squad_premium_routes.dart';
 import 'package:squad_premium_test/app/utils/widget_utils.dart';
 
@@ -35,13 +36,12 @@ class _SquadPremiumAppWidgetState extends State<SquadPremiumAppWidget> with Widg
         ),
         initialRoute: AppRoutes.initial.path,
         getPages: SquadPremiumRoutes.routes,
-        builder: (context, child) => SafeArea(
-          child: Scaffold(
-            backgroundColor: Colors.blueGrey.shade50,
-            body: GestureDetector(
-              onTap: () => WidgetUtils.hideKeyboard(context),
-              child: child,
-            ),
+        initialBinding: SquadPremiumAppBinding(),
+        builder: (context, child) => Scaffold(
+          backgroundColor: Colors.blueGrey.shade50,
+          body: GestureDetector(
+            onTap: () => WidgetUtils.hideKeyboard(context),
+            child: child,
           ),
         ),
       );

@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:squad_premium_test/core/domain/entity/user/user_entity.dart';
@@ -24,7 +25,7 @@ void main() {
   test('should sign in', () async {
     const userEntity = UserEntity(id: 1, name: 'name', email: 'email', password: 'password');
     final params = UserUseCaseParams(email: 'email', password: '123', name: 'name');
-    when(() => authRepository.signUp(params)).thenAnswer((_) async => userEntity);
+    when(() => authRepository.signUp(params)).thenAnswer((_) async => const Right(userEntity));
 
     final result = await signUpUseCase.call(params);
 
