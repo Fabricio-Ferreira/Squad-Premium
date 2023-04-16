@@ -6,8 +6,10 @@ import 'package:squad_premium_test/app/pages/login/login_page.dart';
 import 'package:squad_premium_test/app/utils/try_cast.dart';
 import 'package:squad_premium_test/app/widgets/custom_dialog_task.dart';
 import 'package:squad_premium_test/core/domain/entity/task/task_entity.dart';
+import 'package:squad_premium_test/core/domain/use_cases/app/remove_account_use_case.dart';
 import 'package:squad_premium_test/core/domain/use_cases/base/base_use_case.dart';
 import 'package:squad_premium_test/core/domain/use_cases/task/add_task_use_case.dart';
+import 'package:squad_premium_test/core/domain/use_cases/task/delete_task_use_case.dart';
 import 'package:squad_premium_test/core/domain/use_cases/task/get_task_use_case.dart';
 import 'package:squad_premium_test/core/domain/use_cases/task/params/task_use_case_params.dart';
 import 'package:squad_premium_test/core/domain/use_cases/task/update_task_use_case.dart';
@@ -22,6 +24,8 @@ class HomeController extends GetxController with AlertMixin {
   final UpdateTaskUseCase _updateTaskUseCase;
   final GetUserUseCase _getUserUseCase;
   final UpdateUserUseCase _updateUserUseCase;
+  final RemoveAccountUseCase _removeAccountUseCase;
+  final DeleteTaskUseCase _deleteTaskUseCase;
 
   HomeController(
     this._addTaskUseCase,
@@ -29,6 +33,8 @@ class HomeController extends GetxController with AlertMixin {
     this._updateTaskUseCase,
     this._getUserUseCase,
     this._updateUserUseCase,
+    this._removeAccountUseCase,
+    this._deleteTaskUseCase,
   );
 
   late HomeArguments _arguments;
@@ -57,7 +63,20 @@ class HomeController extends GetxController with AlertMixin {
     _getUser();
   }
 
-  void logout() => LoginPage.navigateTo;
+  Future<void> logout() async {
+    final response = await showConfirm(
+      title: 'Sair do App',
+      message: 'Deseja realmente sair da sua conta?',
+      confirm: 'Sim',
+      cancel: 'Não',
+    );
+
+    if (response == null || !response) {
+      return;
+    }
+
+    await LoginPage.navigateTo;
+  }
 
   void navigateToCreateTask() => Get.dialog(const CustomDialogTask());
 
@@ -78,6 +97,8 @@ class HomeController extends GetxController with AlertMixin {
   }
 
   Future<void> _getTasks() async {
+    _showLoading();
+    await 2.seconds.delay(_hideLoading);
     final result = await _getTaskUseCase(NoParams());
 
     result.fold(
@@ -118,6 +139,8 @@ class HomeController extends GetxController with AlertMixin {
     if (tasks.isNotEmpty) {
       _clearFields();
       showSnackBar(message: 'Suas tarefas foram atualizadas com sucesso!');
+    } else {
+      showSnackBar(message: 'Você não possui tarefas cadastradas!');
     }
   }
 
@@ -149,6 +172,64 @@ class HomeController extends GetxController with AlertMixin {
     result.fold(
       _handleError,
       (user) => _getTasks(),
+    );
+  }
+
+  Future<void> removeAccount() async {
+    final response = await showConfirm(
+      title: 'Remover conta',
+      message: 'Deseja realmente remover sua conta?',
+      confirm: 'Sim',
+      cancel: 'Não',
+    );
+
+    if (response == null || !response) {
+      return;
+    }
+
+    final result = await _removeAccountUseCase(_arguments.userEmail);
+
+    result.fold(
+      _handleError,
+      (user) {
+        showSnackBar(message: 'Conta removida com sucesso!');
+        3.seconds.delay();
+        LoginPage.navigateTo;
+      },
+    );
+  }
+
+  Future showConfirm(
+          {required String title,
+          required String message,
+          required String confirm,
+          required String cancel}) =>
+      Get.defaultDialog(
+        title: title,
+        content: Text(message),
+        textConfirm: confirm,
+        textCancel: cancel,
+        confirmTextColor: Colors.white,
+        cancelTextColor: Colors.blue.shade900,
+        onConfirm: () => Get.back(result: true),
+        onCancel: () => Get.back(result: false),
+      );
+
+  void _showLoading() => Get.dialog(
+        const Center(
+          child: CircularProgressIndicator(),
+        ),
+        barrierDismissible: false,
+      );
+
+  void _hideLoading() => Get.back();
+
+  Future<void> removeTask(TaskEntity task) async {
+    final result = await _deleteTaskUseCase(task.id);
+
+    result.fold(
+      _handleError,
+      (task) => _getTasks(),
     );
   }
 }

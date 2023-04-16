@@ -7,5 +7,5 @@ abstract class TaskRepository {
   Future<Either<Failure, List<TaskEntity>>> getTasks();
   Future<Either<Failure, List<TaskEntity>>> addTask(TaskUseCaseParams params);
   Future<Either<Failure, List<TaskEntity>>> updateTask(TaskUseCaseParams params);
-  Future<List<TaskEntity>> deleteTask(int idTask);
+  Future<Either<Failure, List<TaskEntity>>> deleteTask(int idTask);
 }

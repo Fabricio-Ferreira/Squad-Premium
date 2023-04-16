@@ -33,4 +33,19 @@ class UserRepositoryImpl implements UserRepository {
       return Right(updatedUserEntity);
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> removeAccount(String userEmail) async {
+    final user = await _localStorage.getData(userEmail);
+    if (user.contains(AppError.keyNotFound) || user.isEmpty) {
+      return const Left(BadRequestFailure(message: 'Usuário não encontrado'));
+    }
+
+    final result = await _localStorage.remove(userEmail);
+    if (result) {
+      return const Right(true);
+    } else {
+      return const Left(ServerFailure(message: 'Erro ao remover usuário'));
+    }
+  }
 }

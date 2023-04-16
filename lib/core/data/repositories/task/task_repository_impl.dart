@@ -39,14 +39,26 @@ class TaskRepositoryImpl implements TaskRepository {
   }
 
   @override
-  Future<List<TaskEntity>> deleteTask(int idTask) async {
-    // final tasksList = await getTasks();
-    // tasksList.removeWhere((task) => task.id == idTask);
-    // if (await _localStorage.saveData(LocalStorageKeyEnum.tasks.key, jsonEncode(tasksList))) {
-    //   return tasksList;
-    // }
+  Future<Either<Failure, List<TaskEntity>>> deleteTask(int idTask) async {
+    final list = <TaskEntity>[];
+    final result = await getTasks();
+    result.fold((l) => l, list.addAll);
 
-    throw Exception('Erro ao deletar tarefa');
+    if (list.isEmpty) {
+      return const Right([]);
+    }
+
+    final index = list.indexWhere((task) => task.id == idTask);
+    if (index != -1) {
+      list.removeAt(index);
+      if (await _localStorage.saveData(LocalStorageKeyEnum.tasks.key, jsonEncode(list))) {
+        return Right(list);
+      }
+    }
+
+    return const Left(
+      ServerFailure(message: 'Erro ao deletar tarefa'),
+    );
   }
 
   @override

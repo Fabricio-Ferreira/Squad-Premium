@@ -5,6 +5,7 @@ import 'package:squad_premium_test/app/pages/home/arguments/home_arguments.dart'
 import 'package:squad_premium_test/app/pages/home/home_controller.dart';
 import 'package:squad_premium_test/app/routes/app_route_enum.dart';
 import 'package:squad_premium_test/app/widgets/custom_tab_bar.dart';
+import 'package:squad_premium_test/app/widgets/tasks_list_widget.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({Key? key}) : super(key: key);
@@ -25,6 +26,10 @@ class HomePage extends GetView<HomeController> {
                 backgroundColor: Colors.blue.shade900,
                 title: Text('Olá, ${controller.nameUser}!'),
                 actions: [
+                  IconButton(
+                    onPressed: () => controller.removeAccount(),
+                    icon: const Icon(Icons.person_remove_alt_1_outlined),
+                  ),
                   IconButton(
                     onPressed: () => controller.logout(),
                     icon: const Icon(Icons.logout),
@@ -55,121 +60,19 @@ class HomePage extends GetView<HomeController> {
                     child: Stack(
                       children: [
                         Container(
-                          height: Get.height,
+                          height: Get.height * 0.77,
                           child: TabBarView(
                             children: [
-                              Obx(
-                                () => Container(
-                                  padding: const EdgeInsets.only(top: 100),
-                                  child: ListView.separated(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.vertical,
-                                    separatorBuilder: (context, index) => const Divider(),
-                                    itemCount: controller.tasksList.length,
-                                    itemBuilder: (context, index) {
-                                      final task = controller.tasksList[index];
-                                      return ListTile(
-                                        contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-                                        title: Text(
-                                          task.title,
-                                          style: const TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        subtitle: Text(
-                                          task.description,
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                        trailing: Checkbox(
-                                          value: task.isDone,
-                                          onChanged: (value) => controller.updateTask(task),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                              Obx(
-                                () => Container(
-                                  padding: const EdgeInsets.only(top: 100),
-                                  child: ListView.separated(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.vertical,
-                                    separatorBuilder: (context, index) => const Divider(),
-                                    itemCount: controller.tasksListPending.length,
-                                    itemBuilder: (context, index) {
-                                      final task = controller.tasksListPending[index];
-                                      return ListTile(
-                                        contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-                                        title: Text(
-                                          task.title,
-                                          style: const TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        subtitle: Text(
-                                          task.description,
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                        trailing: Checkbox(
-                                          value: task.isDone,
-                                          onChanged: (value) => controller.updateTask(task),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                              Obx(
-                                () => Container(
-                                  padding: const EdgeInsets.only(top: 100),
-                                  child: ListView.separated(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.vertical,
-                                    separatorBuilder: (context, index) => const Divider(),
-                                    itemCount: controller.tasksListDone.length,
-                                    itemBuilder: (context, index) {
-                                      final task = controller.tasksListDone[index];
-                                      return ListTile(
-                                        contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-                                        title: Text(
-                                          task.title,
-                                          style: const TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        subtitle: Text(
-                                          task.description,
-                                          style: const TextStyle(
-                                            fontSize: 14,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                        trailing: Checkbox(
-                                          value: task.isDone,
-                                          onChanged: (value) => controller.updateTask(task),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
+                              TasksListWidget(tasksList: controller.tasksList),
+                              TasksListWidget(tasksList: controller.tasksListPending),
+                              TasksListWidget(tasksList: controller.tasksListDone),
                             ],
                           ),
                         ),
                         const Align(
                           alignment: Alignment.topCenter,
                           child: Padding(
-                            padding: EdgeInsets.all(30),
+                            padding: EdgeInsets.all(20),
                             child: CustomTabBar(),
                           ),
                         )

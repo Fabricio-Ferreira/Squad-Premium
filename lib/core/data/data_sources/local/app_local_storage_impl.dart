@@ -12,10 +12,10 @@ class AppLocalStorageImpl implements AppLocalStorage {
   }
 
   @override
-  Future<bool> clear() async {
+  Future<bool> remove(String key) async {
     try {
       final shared = await _instance.future;
-      return shared.clear();
+      return shared.remove(key);
     } on Exception catch (e) {
       debugPrint('LocalStorage error => putBool: $e');
       return false;
