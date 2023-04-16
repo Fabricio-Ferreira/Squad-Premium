@@ -1,3 +1,5 @@
+import 'package:dartz/dartz.dart';
+import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:squad_premium_test/core/domain/entity/task/task_entity.dart';
@@ -23,25 +25,35 @@ void main() {
     deleteTaskUseCase = DeleteTaskUseCase(taskRepository);
   });
 
-  test('should delete task', () async {
-    final params = TaskUseCaseParams(title: 'title', description: 'description', isDone: false);
-    when(() => taskRepository.deleteTask(params.id)).thenAnswer((_) async => <TaskEntity>[]);
+  group('DeleteTaskUseCse', () {
+    final params = TaskUseCaseParams(
+        title: 'title',
+        description: 'description',
+        isDone: false,
+        userId: Faker().randomGenerator.integer(100));
 
-    final result = await deleteTaskUseCase(params.id);
+    test('should delete task', () async {
+      when(() => taskRepository.deleteTask(params.id))
+          .thenAnswer((_) async => const Right(<TaskEntity>[]));
 
-    expect(result, isA<List<TaskEntity>>());
-    verify(() => taskRepository.deleteTask(params.id)).called(1);
-  });
+      final result = await deleteTaskUseCase(params.id);
 
-  test('should error delete task', () async {
-    final params = TaskUseCaseParams(title: 'title', description: 'description', isDone: false);
-
-    try {
-      when(() => taskRepository.deleteTask(params.id)).thenAnswer((_) async => throw Exception());
-      await deleteTaskUseCase(params.id);
       verify(() => taskRepository.deleteTask(params.id)).called(1);
-    } on Exception catch (e) {
-      expect(e, isA<Exception>());
-    }
+      result.fold(
+          (err) => fail('Task deleted failed: $err'), (a) => expect(a, isA<List<TaskEntity>>()));
+    });
+
+    test('should error delete task', () async {
+      try {
+        when(() => taskRepository.deleteTask(params.id)).thenAnswer((_) async => throw Exception());
+        await deleteTaskUseCase(params.id);
+        verify(() => taskRepository.deleteTask(params.id)).called(1);
+      } on Exception catch (e) {
+        expect(e, isA<Exception>());
+      }
+    });
+    test('should be a subclass of DeleteTaskUseCase', () {
+      expect(deleteTaskUseCase, isA<DeleteTaskUseCase>());
+    });
   });
 }

@@ -5,6 +5,7 @@ import 'package:squad_premium_test/core/domain/entity/user/user_entity.dart';
 import 'package:squad_premium_test/core/domain/repositories/auth/auth_repository.dart';
 import 'package:squad_premium_test/core/domain/use_cases/auth/params/user_use_case_params.dart';
 import 'package:squad_premium_test/core/domain/use_cases/auth/sign_up/sign_up_use_case.dart';
+import 'package:squad_premium_test/core/error/failure.dart';
 
 class AuthRepositorySpy extends Mock implements AuthRepository {}
 
@@ -22,26 +23,34 @@ void main() {
     signUpUseCase = SignUpUseCase(authRepository);
   });
 
-  test('should sign in', () async {
-    const userEntity = UserEntity(id: 1, name: 'name', email: 'email', password: 'password');
-    final params = UserUseCaseParams(email: 'email', password: '123', name: 'name');
-    when(() => authRepository.signUp(params)).thenAnswer((_) async => const Right(userEntity));
+  group('signUpUseCase', () {
+    test('should be a subclass of SignUpUseCase', () {
+      expect(signUpUseCase, isA<SignUpUseCase>());
+    });
 
-    final result = await signUpUseCase.call(params);
+    test('should return a UserEntity', () async {
+      const userEntity =
+          UserEntity(id: 1, name: 'name', email: 'email', password: 'password', hasTasks: false);
+      final params = UserUseCaseParams(email: 'email', password: '123', name: 'name');
+      when(() => authRepository.signUp(params)).thenAnswer((_) async => const Right(userEntity));
 
-    verify(() => authRepository.signUp(params)).called(1);
-    expect(result, userEntity);
-  });
+      final result = await signUpUseCase.call(params);
 
-  test('should error on sign in', () async {
-    final params = UserUseCaseParams(email: 'email', password: '123', name: 'name');
-    when(() => authRepository.signUp(params)).thenAnswer((_) async => throw Exception());
-
-    try {
-      await signUpUseCase.call(params);
       verify(() => authRepository.signUp(params)).called(1);
-    } on Exception catch (e) {
-      expect(e, isA<Exception>());
-    }
+      expect(result.isRight(), true);
+      expect(result.fold(id, id), isA<UserEntity>());
+    });
+
+    test('should return a Failure', () async {
+      final params = UserUseCaseParams(email: 'email', password: '123', name: 'name');
+      when(() => authRepository.signUp(params))
+          .thenAnswer((_) async => const Left(BadRequestFailure(message: 'error')));
+
+      final result = await signUpUseCase.call(params);
+
+      verify(() => authRepository.signUp(params)).called(1);
+      expect(result.isLeft(), true);
+      expect(result.fold(id, id), isA<Failure>());
+    });
   });
 }

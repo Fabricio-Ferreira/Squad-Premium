@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:squad_premium_test/core/domain/entity/task/task_entity.dart';
 import 'package:squad_premium_test/core/domain/repositories/task/task_repository.dart';
@@ -24,22 +25,29 @@ void main() {
     getTaskUseCase = GetTaskUseCase(taskRepository);
   });
 
-  test('should get all task', () async {
-    when(() => taskRepository.getTasks()).thenAnswer((_) async => <TaskEntity>[]);
+  group('GetTaskUseCase', () {
+    test('should be a subclass of GetTaskUseCase', () {
+      expect(getTaskUseCase, isA<GetTaskUseCase>());
+    });
+    test('should get all task', () async {
+      when(() => taskRepository.getTasks()).thenAnswer((_) async => const Right(<TaskEntity>[]));
 
-    final result = await getTaskUseCase(NoParams());
+      final result = await getTaskUseCase(NoParams());
 
-    expect(result, isA<List<TaskEntity>>());
-    verify(() => taskRepository.getTasks()).called(1);
-  });
-
-  test('should error on get all task', () async {
-    try {
-      when(() => taskRepository.getTasks()).thenAnswer((_) async => throw Exception());
-      await getTaskUseCase(NoParams());
       verify(() => taskRepository.getTasks()).called(1);
-    } on Exception catch (e) {
-      expect(e, isA<Exception>());
-    }
+      result.fold(
+          (err) => fail('Task deleted failed: $err'), (a) => expect(a, isA<List<TaskEntity>>()));
+      expect(result, isA<Right>());
+    });
+
+    test('should error on get all task', () async {
+      try {
+        when(() => taskRepository.getTasks()).thenAnswer((_) async => throw Exception());
+        await getTaskUseCase(NoParams());
+        verify(() => taskRepository.getTasks()).called(1);
+      } on Exception catch (e) {
+        expect(e, isA<Exception>());
+      }
+    });
   });
 }

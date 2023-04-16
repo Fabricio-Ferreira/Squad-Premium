@@ -1,3 +1,5 @@
+import 'package:dartz/dartz.dart';
+import 'package:faker/faker.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:squad_premium_test/core/domain/entity/task/task_entity.dart';
 import 'package:squad_premium_test/core/domain/repositories/task/task_repository.dart';
@@ -23,25 +25,39 @@ void main() {
     addTaskUseCase = AddTaskUseCase(taskRepository);
   });
 
-  test('should add task', () async {
-    final params = TaskUseCaseParams(title: 'title', description: 'description', isDone: false);
-    when(() => taskRepository.addTask(params)).thenAnswer((_) async => <TaskEntity>[]);
+  group('AddTaskUseCase', () {
+    test('should be a subclass of AddTaskUseCase', () {
+      expect(addTaskUseCase, isA<AddTaskUseCase>());
+    });
 
-    final result = await addTaskUseCase(params);
+    test('should add task', () async {
+      final params = TaskUseCaseParams(
+        title: 'title',
+        description: 'description',
+        isDone: false,
+        userId: Faker().randomGenerator.integer(100),
+      );
+      when(() => taskRepository.addTask(params))
+          .thenAnswer((_) async => const Right(<TaskEntity>[]));
 
-    expect(result, isA<List<TaskEntity>>());
-    verify(() => taskRepository.addTask(params)).called(1);
-  });
+      final result = await addTaskUseCase(params);
 
-  test('should error on add task', () async {
-    final params = TaskUseCaseParamsSpy();
-
-    try {
-      when(() => taskRepository.addTask(params)).thenAnswer((_) async => throw Exception());
-      await addTaskUseCase(params);
       verify(() => taskRepository.addTask(params)).called(1);
-    } on Exception catch (e) {
-      expect(e, isA<Exception>());
-    }
+      result.fold(
+          (err) => fail('Task deleted failed: $err'), (a) => expect(a, isA<List<TaskEntity>>()));
+      expect(result, isA<Right>());
+    });
+
+    test('should error on add task', () async {
+      final params = TaskUseCaseParamsSpy();
+
+      try {
+        when(() => taskRepository.addTask(params)).thenAnswer((_) async => throw Exception());
+        await addTaskUseCase(params);
+        verify(() => taskRepository.addTask(params)).called(1);
+      } on Exception catch (e) {
+        expect(e, isA<Exception>());
+      }
+    });
   });
 }

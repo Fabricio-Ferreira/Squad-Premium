@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:squad_premium_test/core/domain/entity/task/task_entity.dart';
 import 'package:squad_premium_test/core/domain/repositories/task/task_repository.dart';
@@ -23,25 +24,37 @@ void main() {
     updateTaskUseCase = UpdateTaskUseCase(taskRepository);
   });
 
-  test('should update task', () async {
-    final params = TaskUseCaseParams(title: 'title', description: 'description', isDone: false);
-    when(() => taskRepository.updateTask(params)).thenAnswer((_) async => <TaskEntity>[]);
+  group('UpdateTaskUseCase', () {
+    final params = TaskUseCaseParams(
+      title: 'title',
+      description: 'description',
+      isDone: false,
+      userId: 1,
+    );
+    test('should be a subclass of UpdateTaskUseCase', () {
+      expect(updateTaskUseCase, isA<UpdateTaskUseCase>());
+    });
 
-    final result = await updateTaskUseCase(params);
+    test('should return a list of TaskEntity', () async {
+      when(() => taskRepository.updateTask(params))
+          .thenAnswer((_) async => const Right(<TaskEntity>[]));
 
-    expect(result, isA<List<TaskEntity>>());
-    verify(() => taskRepository.updateTask(params)).called(1);
-  });
+      final result = await updateTaskUseCase(params);
 
-  test('should error on update task', () async {
-    final params = TaskUseCaseParamsSpy();
-
-    try {
-      when(() => taskRepository.updateTask(params)).thenAnswer((_) async => throw Exception());
-      await updateTaskUseCase(params);
       verify(() => taskRepository.updateTask(params)).called(1);
-    } on Exception catch (e) {
-      expect(e, isA<Exception>());
-    }
+      result.fold(
+          (err) => fail('Task deleted failed: $err'), (a) => expect(a, isA<List<TaskEntity>>()));
+      expect(result, isA<Right>());
+    });
+
+    test('should error on update task', () async {
+      try {
+        when(() => taskRepository.updateTask(params)).thenAnswer((_) async => throw Exception());
+        await updateTaskUseCase(params);
+        verify(() => taskRepository.updateTask(params)).called(1);
+      } on Exception catch (e) {
+        expect(e, isA<Exception>());
+      }
+    });
   });
 }
