@@ -7,11 +7,13 @@ class TaskUseCaseParams extends BaseEntity {
   final String description;
   final bool isDone;
   int? idTask;
+  final int userId;
 
   TaskUseCaseParams({
     required this.title,
     required this.description,
     required this.isDone,
+    required this.userId,
     this.idTask,
   }) : super(id: idTask ?? Random.secure().nextInt(100000));
 }

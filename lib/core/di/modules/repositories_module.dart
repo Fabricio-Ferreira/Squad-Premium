@@ -1,7 +1,9 @@
 import 'package:get/get.dart';
 import 'package:squad_premium_test/core/data/repositories/auth/auth_repository_impl.dart';
 import 'package:squad_premium_test/core/data/repositories/task/task_repository_impl.dart';
+import 'package:squad_premium_test/core/data/repositories/user/user_repository_impl.dart';
 import 'package:squad_premium_test/core/domain/repositories/auth/auth_repository.dart';
+import 'package:squad_premium_test/core/domain/repositories/user/user_repository.dart';
 
 import '../../domain/repositories/task/task_repository.dart';
 
@@ -11,6 +13,7 @@ class RepositoriesModule {
   static void init() {
     _injectAuthRepository();
     _injectTaskRepository();
+    _injectUserRepository();
   }
 
   static void _injectAuthRepository() {
@@ -18,6 +21,10 @@ class RepositoriesModule {
   }
 
   static void _injectTaskRepository() {
-    Get.lazyPut<TaskRepository>(() => TaskRepositoryImpl(Get.find()));
+    Get.put<TaskRepository>(TaskRepositoryImpl(Get.find()));
+  }
+
+  static void _injectUserRepository() {
+    Get.put<UserRepository>(UserRepositoryImpl(Get.find()));
   }
 }

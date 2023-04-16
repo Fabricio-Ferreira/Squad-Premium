@@ -21,11 +21,13 @@ class SignUpController extends GetxController with AlertMixin {
   final _emailIsValid = false.obs;
   final _passwordIsValid = false.obs;
   final _passwordIsVisible = false.obs;
+  final _nameIsValid = false.obs;
 
   bool get emailIsValid => _emailIsValid.value;
   bool get passwordIsValid => _passwordIsValid.value;
   bool get passwordIsVisible => _passwordIsVisible.value;
-  bool get isFormValid => emailIsValid && passwordIsValid && _nameController.text.isNotEmpty;
+  bool get nameIsValid => _nameIsValid.value;
+  bool get isFormValid => emailIsValid && passwordIsValid && nameIsValid;
 
   TextEditingController get emailController => _emailController;
   TextEditingController get passwordController => _passwordController;
@@ -45,7 +47,7 @@ class SignUpController extends GetxController with AlertMixin {
 
   void changePasswordIsVisible() => _passwordIsVisible.toggle();
 
-  void changeName(String text) => _nameController.text = text;
+  void changeName(String text) => _nameIsValid.value = ValidatorHelper.isNameValid(text);
 
   Future<void> signUp() async {
     if (isFormValid) {
@@ -54,15 +56,23 @@ class SignUpController extends GetxController with AlertMixin {
           email: _emailController.text,
           password: _passwordController.text,
           name: _nameController.text,
+          hasTasks: false,
         ),
       );
 
       result.fold(
         _handleError,
-        (success) => HomePage.navigateWith(
-          arguments: HomeArguments(nameUser: success.name),
+        (user) => HomePage.navigateWith(
+          arguments: HomeArguments(
+            nameUser: user.name,
+            hasTasks: user.hasTasks,
+            userId: user.id,
+            userEmail: user.email,
+          ),
         ),
       );
+    } else {
+      showSnackBar(message: 'Preencha todos os campos corretamente', isError: true);
     }
   }
 

@@ -31,3 +31,13 @@ class ServerFailure extends Failure {
   @override
   List<Object> get props => [message];
 }
+
+class NotFound extends Failure {
+  const NotFound({required super.message});
+
+  @override
+  String toString() => 'ServerFailure(message: $message)';
+
+  @override
+  List<Object> get props => [message];
+}

@@ -15,31 +15,27 @@ class TaskRepositoryImpl implements TaskRepository {
 
   @override
   Future<Either<Failure, List<TaskEntity>>> addTask(TaskUseCaseParams params) async {
-    try {
-      final result = await getTasks();
+    final list = <TaskEntity>[];
+    final result = await getTasks();
 
-      result.fold(
-        (failure) => const Left(
-          ServerFailure(message: 'Erro ao salvar tarefa'),
-        ),
-        (list) async {
-          list.add(
-            TaskEntity(
-              id: params.id,
-              title: params.title,
-              description: params.description,
-              isDone: params.isDone,
-            ),
-          );
-          if (await _localStorage.saveData(LocalStorageKeyEnum.tasks.key, jsonEncode(list))) {
-            return Right(list);
-          }
-        },
-      );
-      return result;
-    } on Exception catch (err) {
-      return Left(ServerFailure(message: 'Erro ao salvar tarefa, $err'));
+    result.fold((l) => l, list.addAll);
+
+    list.add(
+      TaskEntity(
+        id: params.id,
+        title: params.title,
+        description: params.description,
+        isDone: params.isDone,
+        userId: params.userId,
+      ),
+    );
+    if (await _localStorage.saveData(LocalStorageKeyEnum.tasks.key, jsonEncode(list))) {
+      return Right(list);
     }
+
+    return const Left(
+      ServerFailure(message: 'Erro ao salvar tarefa'),
+    );
   }
 
   @override
@@ -91,6 +87,7 @@ class TaskRepositoryImpl implements TaskRepository {
               title: params.title,
               description: params.description,
               isDone: params.isDone,
+              userId: params.userId,
             );
             if (await _localStorage.saveData(LocalStorageKeyEnum.tasks.key, jsonEncode(list))) {
               return Right(list);

@@ -53,7 +53,14 @@ class LoginController extends GetxController with AlertMixin {
 
       result.fold(
         _handleError,
-        (user) => HomePage.navigateWith(arguments: HomeArguments(nameUser: user.name)),
+        (user) => HomePage.navigateWith(
+          arguments: HomeArguments(
+            nameUser: user.name,
+            hasTasks: user.hasTasks,
+            userId: user.id,
+            userEmail: user.email,
+          ),
+        ),
       );
     }
   }

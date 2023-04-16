@@ -24,7 +24,7 @@ abstract class ValidatorHelper {
     return RegExp(r).hasMatch(text);
   }
 
-  static bool is2faSizeValid(String text) => text.length == 6;
+  static bool isNameValid(String text) => text.length >= 6;
 
   static bool isPasswordSizeValid(String text) => text.length >= 6;
 

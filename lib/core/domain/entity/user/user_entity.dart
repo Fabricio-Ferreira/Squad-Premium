@@ -8,12 +8,14 @@ class UserEntity extends Equatable {
   final String name;
   final String email;
   final String password;
+  final bool hasTasks;
 
   const UserEntity({
     required this.id,
     required this.name,
     required this.email,
     required this.password,
+    required this.hasTasks,
   });
 
   @override
@@ -24,12 +26,14 @@ class UserEntity extends Equatable {
     String? name,
     String? email,
     String? password,
+    bool? hasTasks,
   }) =>
       UserEntity(
         id: id ?? this.id,
         name: name ?? this.name,
         email: email ?? this.email,
         password: password ?? this.password,
+        hasTasks: hasTasks ?? this.hasTasks,
       );
 
   Map<String, dynamic> toMap() => <String, dynamic>{
@@ -37,6 +41,7 @@ class UserEntity extends Equatable {
         'name': name,
         'email': email,
         'password': password,
+        'hasTasks': hasTasks,
       };
 
   factory UserEntity.fromMap(Map<String, dynamic> map) => UserEntity(
@@ -44,6 +49,7 @@ class UserEntity extends Equatable {
         name: map['name'] as String,
         email: map['email'] as String,
         password: map['password'] as String,
+        hasTasks: map['hasTasks'] as bool,
       );
 
   String toJson() => json.encode(toMap());

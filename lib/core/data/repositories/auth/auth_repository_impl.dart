@@ -35,6 +35,7 @@ class AuthRepositoryImpl implements AuthRepository {
         password: params.password,
         name: params.name ?? '',
         id: params.id,
+        hasTasks: params.hasTasks ?? false,
       );
       if (await _localStorage.saveData(params.email, newUser.toJson())) {
         return Right(newUser);

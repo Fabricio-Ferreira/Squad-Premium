@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 class TaskEntity {
@@ -6,12 +5,14 @@ class TaskEntity {
   final String title;
   final String description;
   final bool isDone;
+  final int userId;
 
   TaskEntity({
     required this.id,
     required this.title,
     required this.description,
     required this.isDone,
+    required this.userId,
   });
 
   TaskEntity copyWith({
@@ -19,12 +20,14 @@ class TaskEntity {
     String? title,
     String? description,
     bool? isDone,
+    int? userId,
   }) =>
       TaskEntity(
         id: id ?? this.id,
         title: title ?? this.title,
         description: description ?? this.description,
         isDone: isDone ?? this.isDone,
+        userId: userId ?? this.userId,
       );
 
   @override
@@ -36,6 +39,7 @@ class TaskEntity {
         'title': title,
         'description': description,
         'isDone': isDone,
+        'userId': userId,
       };
 
   factory TaskEntity.fromMap(Map<String, dynamic> map) => TaskEntity(
@@ -43,6 +47,7 @@ class TaskEntity {
         title: map['title'] as String,
         description: map['description'] as String,
         isDone: map['isDone'] as bool,
+        userId: map['userId'] as int,
       );
 
   String toJson() => json.encode(toMap());

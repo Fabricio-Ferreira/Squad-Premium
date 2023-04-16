@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class CustomTabBar extends StatelessWidget {
@@ -25,18 +26,18 @@ class CustomTabBar extends StatelessWidget {
             labelPadding: const EdgeInsets.symmetric(vertical: 4),
             labelStyle: const TextStyle(fontSize: 20),
             unselectedLabelStyle: TextStyle(fontSize: 20, color: Colors.blue.shade900),
-            tabs: const [
-              Tab(
-                text: 'Tarefas',
-              ),
-              Tab(
-                text: 'Pendentes',
-              ),
-              Tab(
-                text: 'Concluídas',
-              ),
+            tabs: [
+              _insertTextTabBar(title: 'Tarefas'),
+              _insertTextTabBar(title: 'Pendentes'),
+              _insertTextTabBar(title: 'Concluídas'),
             ],
           ),
         ),
+      );
+
+  Widget _insertTextTabBar({required String title}) => AutoSizeText(
+        title,
+        style: const TextStyle(fontSize: 18),
+        minFontSize: 14,
       );
 }
