@@ -39,7 +39,7 @@ class TaskEntity {
       };
 
   factory TaskEntity.fromMap(Map<String, dynamic> map) => TaskEntity(
-        id: int.parse(map['id'] as String),
+        id: map['id'] as int,
         title: map['title'] as String,
         description: map['description'] as String,
         isDone: map['isDone'] as bool,

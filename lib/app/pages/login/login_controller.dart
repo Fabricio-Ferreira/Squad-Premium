@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:squad_premium_test/app/helpers/validator_helper.dart';
+import 'package:squad_premium_test/app/mixin/alert_mixin.dart';
 import 'package:squad_premium_test/app/pages/home/arguments/home_arguments.dart';
 import 'package:squad_premium_test/app/pages/home/home_page.dart';
 import 'package:squad_premium_test/core/domain/use_cases/auth/params/user_use_case_params.dart';
 import 'package:squad_premium_test/core/domain/use_cases/auth/sign_in/sign_in_use_case.dart';
+import 'package:squad_premium_test/core/error/failure.dart';
 
-class LoginController extends GetxController {
+class LoginController extends GetxController with AlertMixin {
   final SignInUseCase _signInUseCase;
 
   LoginController(this._signInUseCase);
@@ -50,19 +52,11 @@ class LoginController extends GetxController {
       );
 
       result.fold(
-        (failure) => Get.snackbar(
-          'Erro',
-          failure.message,
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-          messageText: Text(
-            failure.message,
-            style: const TextStyle(color: Colors.white, fontSize: 16),
-          ),
-        ),
+        _handleError,
         (user) => HomePage.navigateWith(arguments: HomeArguments(nameUser: user.name)),
       );
     }
   }
+
+  void _handleError(Failure failure) => showSnackBar(message: failure.message, isError: true);
 }

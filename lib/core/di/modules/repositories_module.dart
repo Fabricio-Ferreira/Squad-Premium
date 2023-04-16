@@ -14,7 +14,7 @@ class RepositoriesModule {
   }
 
   static void _injectAuthRepository() {
-    Get.lazyPut<AuthRepository>(() => AuthRepositoryImpl(Get.find()));
+    Get.lazyPut<AuthRepository>(() => AuthRepositoryImpl(Get.find()), fenix: true);
   }
 
   static void _injectTaskRepository() {
