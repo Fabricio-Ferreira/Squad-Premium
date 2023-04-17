@@ -42,7 +42,8 @@ Para esse projeto, utilizei arquitetura baseada no CLEAN DART, dividindo o proje
 - `Funcionalidade 3`: Criando, Deletando e Editando uma tarefa
 
 <br>
-https://user-images.githubusercontent.com/13634186/232527450-0d4409cf-5f75-4ab7-b05e-ac0c871b83aa.mp4
+<div>
+<img width="400" height="300" src="images/app.gif">
 <br>
 
 # Autor
