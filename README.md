@@ -17,7 +17,7 @@ Para esse projeto, utilizei arquitetura baseada no CLEAN DART, dividindo o proje
 
 ![img3](https://user-images.githubusercontent.com/13634186/232504498-eb2f484e-2383-4036-a7c7-c07a0137cd15.png)
 
-# Autores
+# Autor
 
 | [<img src="https://user-images.githubusercontent.com/13634186/232524073-68d37536-2722-4f49-9d9e-072b66e5da7c.jpeg" width=115><br><sub>Fabrício Ferreira da Silva</sub>](https://github.com/Fabricio-Ferreira) | 
 | :---: | 
