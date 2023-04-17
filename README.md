@@ -13,3 +13,8 @@ Também foi adicionado testes na camada de UseCases, para rodar os testes, execu
  - rm -f "test/test_all_test.dart"
  - rm -f "test/test_all_widgets_test.dart"
 
+Para esse projeto, utilizei arquitetura baseada no CLEAN DART, dividindo o projeto em camadas para melhor escalabilidade e manutenção no futuro do app.
+
+![img3](https://user-images.githubusercontent.com/13634186/232504498-eb2f484e-2383-4036-a7c7-c07a0137cd15.png)
+
+
