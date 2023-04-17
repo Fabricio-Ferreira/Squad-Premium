@@ -35,8 +35,9 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
               animation: myAnimationController,
               builder: (context, child) => Transform.scale(
                 scale: myAnimationController.value * 0.8,
-                child: const Image(
-                  image: AssetImage('images/icon.jpg'),
+                child: Image(
+                  color: Colors.green.shade600,
+                  image: const AssetImage('images/logo.png'),
                 ),
               ),
             ),
