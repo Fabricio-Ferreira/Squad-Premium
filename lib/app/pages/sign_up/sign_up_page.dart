@@ -26,7 +26,6 @@ class SignUpPage extends GetView<SignUpController> {
           ),
         ),
         body: Container(
-          margin: const EdgeInsets.all(20),
           height: double.infinity,
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
@@ -36,7 +35,7 @@ class SignUpPage extends GetView<SignUpController> {
               children: [
                 const Image(
                   image: AssetImage('images/icon.jpg'),
-                  height: 350,
+                  height: 400,
                   fit: BoxFit.cover,
                 ),
                 const SizedBox(height: 50),
@@ -50,7 +49,7 @@ class SignUpPage extends GetView<SignUpController> {
                   onChanged: (value) => controller.changeEmail(value),
                   onFieldSubmitted: (_) => controller.passwordFocusNode.requestFocus(),
                   onEditingComplete: TextInput.finishAutofillContext,
-                ),
+                ).paddingSymmetric(horizontal: 20),
                 const SizedBox(height: 20),
                 Obx(
                   () => InputTextField(
@@ -72,7 +71,7 @@ class SignUpPage extends GetView<SignUpController> {
                       ),
                       onPressed: () => controller.changePasswordIsVisible(),
                     ),
-                  ),
+                  ).paddingSymmetric(horizontal: 20),
                 ),
                 const SizedBox(height: 20),
                 InputTextField(
@@ -84,7 +83,7 @@ class SignUpPage extends GetView<SignUpController> {
                   autofillHints: const [AutofillHints.name],
                   onChanged: (value) => controller.changeName(value),
                   onEditingComplete: TextInput.finishAutofillContext,
-                ),
+                ).paddingSymmetric(horizontal: 20),
                 const SizedBox(height: 20),
                 Obx(
                   () => ElevatedButton(
@@ -95,7 +94,7 @@ class SignUpPage extends GetView<SignUpController> {
                           )
                         : null,
                     child: const Text('CADASTRAR'),
-                  ),
+                  ).paddingSymmetric(horizontal: 20),
                 ),
               ],
             ),

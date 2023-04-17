@@ -19,7 +19,6 @@ class LoginPage extends GetView<LoginController> {
         body: SafeArea(
           top: false,
           child: Container(
-            padding: const EdgeInsets.all(20),
             height: double.infinity,
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
@@ -29,7 +28,7 @@ class LoginPage extends GetView<LoginController> {
                 children: [
                   const Image(
                     image: AssetImage('images/icon.jpg'),
-                    height: 350,
+                    height: 400,
                     fit: BoxFit.cover,
                   ),
                   const SizedBox(height: 50),
@@ -49,7 +48,7 @@ class LoginPage extends GetView<LoginController> {
                     onChanged: (value) => controller.changeEmail(value),
                     onFieldSubmitted: (_) => controller.passwordFocusNode.requestFocus(),
                     onEditingComplete: TextInput.finishAutofillContext,
-                  ),
+                  ).paddingSymmetric(horizontal: 20),
                   const SizedBox(height: 20),
                   Obx(
                     () => InputTextField(
@@ -72,7 +71,7 @@ class LoginPage extends GetView<LoginController> {
                         onPressed: () => controller.changePasswordIsVisible(),
                       ),
                     ),
-                  ),
+                  ).paddingSymmetric(horizontal: 20),
                   const SizedBox(height: 20),
                   Obx(
                     () => ElevatedButton(
@@ -83,7 +82,7 @@ class LoginPage extends GetView<LoginController> {
                             )
                           : null,
                       child: const Text('LOGIN'),
-                    ),
+                    ).paddingSymmetric(horizontal: 20),
                   ),
                   ElevatedButton(
                     onPressed: () => SignUpPage.navigateTo,
@@ -91,7 +90,7 @@ class LoginPage extends GetView<LoginController> {
                       backgroundColor: MaterialStateProperty.all(Colors.blue.shade900),
                     ),
                     child: const Text('CADASTRAR'),
-                  ),
+                  ).paddingSymmetric(horizontal: 20),
                 ],
               ),
             ),
