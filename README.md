@@ -23,19 +23,27 @@ Para esse projeto, utilizei arquitetura baseada no CLEAN DART, dividindo o proje
 
 - `Funcionalidade 1`: Login e validação de email e senha
 
+<br>
 <div>
-<img src="https://user-images.githubusercontent.com/13634186/232528176-4835a3ce-d917-44cd-82a1-05b41cb03d24.png" width="200px" />
 <img src="https://user-images.githubusercontent.com/13634186/232528066-e3d146b5-b2a2-436e-bbcd-5f53e2c11309.png" width="200px" />
+
+<img src="https://user-images.githubusercontent.com/13634186/232528176-4835a3ce-d917-44cd-82a1-05b41cb03d24.png" width="200px" />
 </div>
+<br>
 
 - `Funcionalidade 2`: Cadastro de usuário
 
+<br>
 <div>
 <img src="https://user-images.githubusercontent.com/13634186/232529279-dba93686-455d-4042-9e21-372746899acb.png" width="200px" />
 </div>
+<br>
 
 - `Funcionalidade 3`: Criando, Deletando e Editando uma tarefa
+
+<br>
 https://user-images.githubusercontent.com/13634186/232527450-0d4409cf-5f75-4ab7-b05e-ac0c871b83aa.mp4
+<br>
 
 # Autor
 
