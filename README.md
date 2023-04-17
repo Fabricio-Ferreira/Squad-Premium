@@ -43,7 +43,7 @@ Para esse projeto, utilizei arquitetura baseada no CLEAN DART, dividindo o proje
 
 <br>
 <div>
-<img width="400" height="300" src="images/app.gif">
+<img src="images/app.gif">
 <br>
 
 # Autor
