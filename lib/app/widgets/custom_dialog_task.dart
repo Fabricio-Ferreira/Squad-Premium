@@ -1,9 +1,19 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:squad_premium_test/app/pages/home/home_controller.dart';
+import 'package:squad_premium_test/core/domain/entity/task/task_entity.dart';
 
 class CustomDialogTask extends GetWidget<HomeController> {
-  const CustomDialogTask({Key? key}) : super(key: key);
+  final bool? isUpdate;
+  final TaskEntity? task;
+
+  const CustomDialogTask({
+    this.isUpdate,
+    this.task,
+  });
 
   @override
   Widget build(BuildContext context) => Center(
@@ -58,14 +68,23 @@ class CustomDialogTask extends GetWidget<HomeController> {
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
-                    controller.addTask();
+                    isUpdate == true
+                        ? controller.updateTask(task!, isUpdate: true)
+                        : controller.addTask();
                     Get.back();
                   },
-                  child: const Text('CRIAR TAREFA'),
+                  child: Text(isUpdate == true ? 'EDITAR TAREFA' : 'CRIAR TAREFA'),
                 ),
               ],
             ),
           ),
         ),
       );
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<bool>('isUpdate', isUpdate));
+    properties.add(DiagnosticsProperty<TaskEntity?>('task', task));
+  }
 }

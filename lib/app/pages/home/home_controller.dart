@@ -78,7 +78,21 @@ class HomeController extends GetxController with AlertMixin {
     await LoginPage.navigateTo;
   }
 
-  void navigateToCreateTask() => Get.dialog(const CustomDialogTask());
+  void navigateToCreateTask(TaskEntity? task) {
+    if (task != null) {
+      _titleTaskController.text = task.title;
+      _descriptionTaskController.text = task.description;
+      check.value = task.isDone;
+      Get.dialog(
+        CustomDialogTask(
+          isUpdate: true,
+          task: task,
+        ),
+      );
+    } else {
+      Get.dialog(const CustomDialogTask());
+    }
+  }
 
   Future<void> addTask() async {
     final params = TaskUseCaseParams(
@@ -107,14 +121,14 @@ class HomeController extends GetxController with AlertMixin {
     );
   }
 
-  Future<void> updateTask(TaskEntity task) async {
+  Future<void> updateTask(TaskEntity task, {bool isUpdate = false}) async {
     debugPrint(task.toString());
 
     final params = TaskUseCaseParams(
       idTask: task.id,
-      title: task.title,
-      description: task.description,
-      isDone: !task.isDone,
+      title: isUpdate ? _titleTaskController.text : task.title,
+      description: isUpdate ? _descriptionTaskController.text : task.description,
+      isDone: isUpdate ? check.value : !task.isDone,
       userId: _arguments.userId,
     );
 

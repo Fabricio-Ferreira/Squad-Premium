@@ -90,6 +90,7 @@ class TasksListWidget extends GetView<HomeController> {
                       ),
                     ],
                   ),
+                  onTap: () => controller.navigateToCreateTask(task),
                 ),
               );
             },

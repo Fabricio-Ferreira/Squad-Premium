@@ -40,7 +40,7 @@ class HomePage extends GetView<HomeController> {
               floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
               floatingActionButton: FloatingActionButton.extended(
                 backgroundColor: Colors.blue.shade900,
-                onPressed: () => controller.navigateToCreateTask(),
+                onPressed: () => controller.navigateToCreateTask(null),
                 label: const Text(
                   'Nova Tarefa',
                   style: TextStyle(
