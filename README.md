@@ -22,7 +22,13 @@ Para esse projeto, utilizei arquitetura baseada no CLEAN DART, dividindo o proje
 # :hammer: Funcionalidades do projeto
 
 - `Funcionalidade 1`: Login e validação de email e senha
-![Captura de Tela 2023-04-17 às 12 05 00](https://user-images.githubusercontent.com/13634186/232528176-4835a3ce-d917-44cd-82a1-05b41cb03d24.png)
+
+![Login e Validação do email e senha](https://user-images.githubusercontent.com/13634186/232528176-4835a3ce-d917-44cd-82a1-05b41cb03d24.png)
+
+div align="center"
+img src="https://user-images.githubusercontent.com/13634186/232528176-4835a3ce-d917-44cd-82a1-05b41cb03d24.png" width="200px" 
+/div
+
 ![Captura de Tela 2023-04-17 às 12 04 29](https://user-images.githubusercontent.com/13634186/232528066-e3d146b5-b2a2-436e-bbcd-5f53e2c11309.png)
 
 - `Funcionalidade 2`: Cadastro de usuário
